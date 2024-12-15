@@ -1,6 +1,6 @@
 #include"Model.h"
 
-Model::Model(const char* file)
+Model::Model(const char* file, unsigned int instancing, std::vector<glm::mat4> instanceMatrix)
 {
 	// Make a JSON object
 	std::string text = get_file_contents(file);
@@ -10,16 +10,19 @@ Model::Model(const char* file)
 	Model::file = file;
 	data = getData();
 
+	Model::instancing = instancing;
+	Model::instanceMatrix = instanceMatrix;
+
 	// Traverse all nodes
 	traverseNode(0);
 }
 
-void Model::Draw(Shader& shader, Camera& camera)
+void Model::Draw(Shader& shader, Camera& camera, glm::vec3 translation, glm::quat rotation, glm::vec3 scale)
 {
 	// Go over all meshes and draw each one
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{
-		meshes[i].Mesh::Draw(shader, camera, matricesMeshes[i]);
+		meshes[i].Mesh::Draw(shader, camera, matricesMeshes[i], translation, rotation, scale);
 	}
 }
 
@@ -45,7 +48,7 @@ void Model::loadMesh(unsigned int indMesh)
 	std::vector<Texture> textures = getTextures();
 
 	// Combine the vertices, indices, and textures into a mesh
-	meshes.push_back(Mesh(vertices, indices, textures));
+	meshes.push_back(Mesh(vertices, indices, textures, instancing, instanceMatrix));
 }
 
 void Model::traverseNode(unsigned int nextNode, glm::mat4 matrix)
@@ -167,9 +170,9 @@ std::vector<float> Model::getFloats(json accessor)
 	// Go over all the bytes in the data at the correct place using the properties from above
 	unsigned int beginningOfData = byteOffset + accByteOffset;
 	unsigned int lengthOfData = count * 4 * numPerVert;
-	for (unsigned int i = beginningOfData; i < beginningOfData + lengthOfData; i += 4)
+	for (unsigned int i = beginningOfData; i < beginningOfData + lengthOfData; i)
 	{
-		unsigned char bytes[] = { data[i], data[i + 1], data[i + 2], data[i + 3] };
+		unsigned char bytes[] = { data[i++], data[i++], data[i++], data[i++] };
 		float value;
 		std::memcpy(&value, bytes, sizeof(float));
 		floatVec.push_back(value);
@@ -196,9 +199,9 @@ std::vector<GLuint> Model::getIndices(json accessor)
 	unsigned int beginningOfData = byteOffset + accByteOffset;
 	if (componentType == 5125)
 	{
-		for (unsigned int i = beginningOfData; i < byteOffset + accByteOffset + count * 4; i += 4)
+		for (unsigned int i = beginningOfData; i < byteOffset + accByteOffset + count * 4; i)
 		{
-			unsigned char bytes[] = { data[i], data[i + 1], data[i + 2], data[i + 3] };
+			unsigned char bytes[] = { data[i++], data[i++], data[i++], data[i++] };
 			unsigned int value;
 			std::memcpy(&value, bytes, sizeof(unsigned int));
 			indices.push_back((GLuint)value);
@@ -206,9 +209,9 @@ std::vector<GLuint> Model::getIndices(json accessor)
 	}
 	else if (componentType == 5123)
 	{
-		for (unsigned int i = beginningOfData; i < byteOffset + accByteOffset + count * 2; i += 2)
+		for (unsigned int i = beginningOfData; i < byteOffset + accByteOffset + count * 2; i)
 		{
-			unsigned char bytes[] = { data[i], data[i + 1] };
+			unsigned char bytes[] = { data[i++], data[i++] };
 			unsigned short value;
 			std::memcpy(&value, bytes, sizeof(unsigned short));
 			indices.push_back((GLuint)value);
@@ -216,9 +219,9 @@ std::vector<GLuint> Model::getIndices(json accessor)
 	}
 	else if (componentType == 5122)
 	{
-		for (unsigned int i = beginningOfData; i < byteOffset + accByteOffset + count * 2; i += 2)
+		for (unsigned int i = beginningOfData; i < byteOffset + accByteOffset + count * 2; i)
 		{
-			unsigned char bytes[] = { data[i], data[i + 1] };
+			unsigned char bytes[] = { data[i++], data[i++] };
 			short value;
 			std::memcpy(&value, bytes, sizeof(short));
 			indices.push_back((GLuint)value);
@@ -230,21 +233,16 @@ std::vector<GLuint> Model::getIndices(json accessor)
 
 std::vector<Texture> Model::getTextures()
 {
-
-
 	std::vector<Texture> textures;
 
 	std::string fileStr = std::string(file);
 	std::string fileDirectory = fileStr.substr(0, fileStr.find_last_of('/') + 1);
-
 
 	// Go over all images
 	for (unsigned int i = 0; i < JSON["images"].size(); i++)
 	{
 		// uri of current texture
 		std::string texPath = JSON["images"][i]["uri"];
-
-
 
 		// Check if the texture has already been loaded
 		bool skip = false;
@@ -309,49 +307,28 @@ std::vector<Vertex> Model::assembleVertices
 
 std::vector<glm::vec2> Model::groupFloatsVec2(std::vector<float> floatVec)
 {
-	const unsigned int floatsPerVector = 2;
-
 	std::vector<glm::vec2> vectors;
-	for (unsigned int i = 0; i < floatVec.size(); i += floatsPerVector)
+	for (int i = 0; i < floatVec.size(); i)
 	{
-		vectors.push_back(glm::vec2(0, 0));
-
-		for (unsigned int j = 0; j < floatsPerVector; j++)
-		{
-			vectors.back()[j] = floatVec[i + j];
-		}
+		vectors.push_back(glm::vec2(floatVec[i++], floatVec[i++]));
 	}
 	return vectors;
 }
 std::vector<glm::vec3> Model::groupFloatsVec3(std::vector<float> floatVec)
 {
-	const unsigned int floatsPerVector = 3;
-
 	std::vector<glm::vec3> vectors;
-	for (unsigned int i = 0; i < floatVec.size(); i += floatsPerVector)
+	for (int i = 0; i < floatVec.size(); i)
 	{
-		vectors.push_back(glm::vec3(0, 0, 0));
-
-		for (unsigned int j = 0; j < floatsPerVector; j++)
-		{
-			vectors.back()[j] = floatVec[i + j];
-		}
+		vectors.push_back(glm::vec3(floatVec[i++], floatVec[i++], floatVec[i++]));
 	}
 	return vectors;
 }
 std::vector<glm::vec4> Model::groupFloatsVec4(std::vector<float> floatVec)
 {
-	const unsigned int floatsPerVector = 4;
-
 	std::vector<glm::vec4> vectors;
-	for (unsigned int i = 0; i < floatVec.size(); i += floatsPerVector)
+	for (int i = 0; i < floatVec.size(); i)
 	{
-		vectors.push_back(glm::vec4(0, 0, 0, 0));
-
-		for (unsigned int j = 0; j < floatsPerVector; j++)
-		{
-			vectors.back()[j] = floatVec[i + j];
-		}
+		vectors.push_back(glm::vec4(floatVec[i++], floatVec[i++], floatVec[i++], floatVec[i++]));
 	}
 	return vectors;
 }

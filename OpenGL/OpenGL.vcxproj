@@ -178,10 +178,20 @@
     <Image Include="pink.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="asteroid.vert" />
+    <None Include="default.geom" />
+    <None Include="framebuffer.frag" />
+    <None Include="framebuffer.vert" />
+    <None Include="grass.frag" />
     <None Include="light.frag" />
     <None Include="light.vert" />
+    <None Include="normals.frag" />
+    <None Include="normals.geom" />
     <None Include="outlining.frag" />
     <None Include="outlining.vert" />
+    <None Include="skybox.frag" />
+    <None Include="skybox.vert" />
+    <None Include="windows.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

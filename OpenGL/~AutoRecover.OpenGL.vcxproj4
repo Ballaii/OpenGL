@@ -146,6 +146,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="shaderClass.cpp" />
     <ClCompile Include="stb.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="shaderClass.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VAO.h" />
@@ -176,8 +178,17 @@
     <Image Include="pink.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="default.geom" />
+    <None Include="framebuffer.frag" />
+    <None Include="framebuffer.vert" />
+    <None Include="grass.frag" />
     <None Include="light.frag" />
     <None Include="light.vert" />
+    <None Include="outlining.frag" />
+    <None Include="outlining.vert" />
+    <None Include="skybox.frag" />
+    <None Include="skybox.vert" />
+    <None Include="windows.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

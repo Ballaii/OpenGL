@@ -84,6 +84,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -113,6 +115,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,16 +141,53 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="EBO.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="shaderClass.cpp" />
+    <ClCompile Include="stb.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="VAO.cpp" />
+    <ClCompile Include="VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="default.frag.txt" />
-    <Text Include="default.vert.txt" />
+    <Text Include="camera.txt" />
+    <Text Include="default.frag" />
+    <Text Include="default.vert" />
+    <Text Include="light.txt" />
+    <Text Include="spinning pyramid.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="EBO.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="shaderClass.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="VAO.h" />
+    <ClInclude Include="VBO.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\brick.png" />
+    <Image Include="..\..\..\..\Downloads\planks.png" />
+    <Image Include="..\..\..\..\Downloads\planksSpec.png" />
+    <Image Include="caseoh.png" />
+    <Image Include="pink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="framebuffer.frag" />
+    <None Include="framebuffer.vert" />
+    <None Include="grass.frag" />
+    <None Include="light.frag" />
+    <None Include="light.vert" />
+    <None Include="outlining.frag" />
+    <None Include="outlining.vert" />
+    <None Include="skybox.frag" />
+    <None Include="skybox.vert" />
+    <None Include="windows.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

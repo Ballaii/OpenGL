@@ -131,5 +131,35 @@
     <None Include="outlining.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="grass.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="windows.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="framebuffer.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="framebuffer.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="skybox.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="skybox.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="default.geom">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="normals.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="normals.geom">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="asteroid.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

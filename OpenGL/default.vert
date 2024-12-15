@@ -28,13 +28,10 @@ uniform mat4 model;
 uniform mat4 translation;
 uniform mat4 rotation;
 uniform mat4 scale;
-uniform mat4 view;
-uniform mat4 projection;
 
 
 void main()
 {
-gl_Position = projection * view * model * vec4(aPos, 1.0);
 	// calculates current position
 	crntPos = vec3(model * translation * rotation * scale * vec4(aPos, 1.0f));
 	// Assigns the normal from the Vertex Data to "Normal"
