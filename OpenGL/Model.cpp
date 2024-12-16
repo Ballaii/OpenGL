@@ -1,5 +1,9 @@
 #include"Model.h"
 
+//To-do:
+//	-Overload Model constructor for other formats
+//	-Fix other .gltf models not loading but crashing in the JSON
+
 Model::Model(const char* file, unsigned int instancing, std::vector<glm::mat4> instanceMatrix)
 {
 	// Make a JSON object
